@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QuickCart – Shop Everything</title>
+<link rel="icon" href="https://cdn-icons-png.flaticon.com/512/3144/3144456.png" type="image/png">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ══ AUTH SCREEN ══ -->
+<div id="authScreen">
+  <div class="auth-left">
+    <div class="auth-inner">
+      <div class="auth-brand">Quick<span>Cart</span> 🛒</div>
+      <div class="auth-brand-sub">India's favourite online shopping destination</div>
+      <div class="feat"><div class="feat-icon">🚀</div><div><div class="feat-title">Lightning Fast Delivery</div><div class="feat-desc">Free delivery on orders above ₹499</div></div></div>
+      <div class="feat"><div class="feat-icon">🔒</div><div><div class="feat-title">100% Secure Payments</div><div class="feat-desc">Your data is always protected</div></div></div>
+      <div class="feat"><div class="feat-icon">🎁</div><div><div class="feat-title">Exclusive Member Deals</div><div class="feat-desc">Early access to sales & offers</div></div></div>
+      <div class="feat"><div class="feat-icon">↩️</div><div><div class="feat-title">Easy 30-Day Returns</div><div class="feat-desc">No questions asked policy</div></div></div>
+      <div class="auth-footer">© 2026 QuickCart · Trusted by 2M+ shoppers</div>
+    </div>
+  </div>
+  <div class="auth-right">
+    <div class="auth-heading" id="authHead">Welcome back 👋</div>
+    <div class="auth-sub" id="authSub">Sign in to your QuickCart account to continue shopping.</div>
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="tabLogin"  onclick="switchTab('login')">Sign In</button>
+      <button class="auth-tab"        id="tabSignup" onclick="switchTab('signup')">Create Account</button>
+    </div>
+
+    <!-- LOGIN -->
+    <div class="auth-panel active" id="panelLogin">
+      <div class="field"><label>Email Address</label><div class="input-wrap"><span class="input-icon">📧</span><input type="email" id="lEmail" placeholder="yourname@gmail.com" oninput="hintGmail('lEmail','lEmailErr')"></div><div class="ferr" id="lEmailErr">Please enter a valid Gmail address (@gmail.com).</div></div>
+      <div class="field"><label>Password</label><div class="input-wrap"><span class="input-icon">🔑</span><input type="password" id="lPass" placeholder="Your password"><button class="pass-eye" onclick="toggleEye('lPass',this)">👁️</button></div><div class="ferr" id="lPassErr">Min 6 characters.</div></div>
+      <div class="forgot"><a onclick="showToast('Reset link sent! (demo)','green')">Forgot password?</a></div>
+      <button class="auth-btn" onclick="doLogin()">Sign In →</button>
+      <div class="divider"><span>OR</span></div>
+      <div class="social-row">
+        <button class="social-btn" onclick="socialLogin('Google')">🌐 Google</button>
+        <button class="social-btn" onclick="socialLogin('Facebook')">📘 Facebook</button>
+      </div>
+      <div class="switch-link">New here? <a onclick="switchTab('signup')">Create a free account</a></div>
+    </div>
+
+    <!-- SIGNUP -->
+    <div class="auth-panel" id="panelSignup">
+      <div class="field"><label>Full Name</label><div class="input-wrap"><span class="input-icon">👤</span><input type="text" id="sName" placeholder="Your full name"></div><div class="ferr" id="sNameErr">Name is required.</div></div>
+      <div class="field"><label>Email Address</label><div class="input-wrap"><span class="input-icon">📧</span><input type="email" id="sEmail" placeholder="yourname@gmail.com" oninput="hintGmail('sEmail','sEmailErr')"></div><div class="ferr" id="sEmailErr">Please enter a valid Gmail address (@gmail.com).</div></div>
+      <div class="field"><label>Password</label><div class="input-wrap"><span class="input-icon">🔑</span><input type="password" id="sPass" placeholder="Create a password" oninput="checkStr(this.value)"><button class="pass-eye" onclick="toggleEye('sPass',this)">👁️</button></div><div class="str-row"><div class="str-seg" id="s1"></div><div class="str-seg" id="s2"></div><div class="str-seg" id="s3"></div><div class="str-seg" id="s4"></div><div class="str-seg" id="s5"></div></div><div class="str-lbl" id="strLbl">Enter a password</div><div class="ferr" id="sPassErr">Min 6 characters.</div></div>
+      <div class="field"><label>Confirm Password</label><div class="input-wrap"><span class="input-icon">🔒</span><input type="password" id="sPass2" placeholder="Repeat password"><button class="pass-eye" onclick="toggleEye('sPass2',this)">👁️</button></div><div class="ferr" id="sPass2Err">Passwords do not match.</div></div>
+      <button class="auth-btn" onclick="doSignup()">Create Account →</button>
+      <div class="divider"><span>OR</span></div>
+      <div class="social-row">
+        <button class="social-btn" onclick="socialLogin('Google')">🌐 Google</button>
+        <button class="social-btn" onclick="socialLogin('Facebook')">📘 Facebook</button>
+      </div>
+      <div class="switch-link">Have an account? <a onclick="switchTab('login')">Sign in</a></div>
+      <div class="terms">By signing up you agree to our <a>Terms</a> & <a>Privacy Policy</a>.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ NAVBAR ══ -->
+<nav class="topbar">
+  <div class="logo">Quick<span>Cart</span> 🛒</div>
+  <div class="search-wrap">
+    <input type="text" id="searchInput" placeholder="Search products, brands and more…" oninput="filterProducts()">
+    <button>🔍</button>
+  </div>
+  <!-- Dark mode -->
+  <button class="dark-toggle" id="darkToggle" onclick="toggleDark()">🌙 Dark</button>
+  <!-- Search page btn -->
+  <button class="nav-btn" onclick="openPage('search')" title="Search">🔍</button>
+  <!-- Wishlist -->
+  <button class="nav-btn" onclick="openSidebar('wish')" title="Wishlist">
+    ❤️<span class="nav-badge red" id="wishBadge">0</span>
+  </button>
+  <!-- Cart -->
+  <button class="nav-btn" onclick="openSidebar('cart')" title="Cart">
+    🛒<span class="nav-badge orange" id="cartBadge">0</span>
+    <span>Cart</span>
+  </button>
+  <!-- User menu -->
+  <div class="user-wrap">
+    <button class="nav-btn" id="userBtn">
+      <div class="user-avatar" id="userAv">?</div>
+      <span id="userName">Account</span>
+    </button>
+    <div class="user-dropdown" id="userDrop">
+      <div class="udrop-head">
+        <div class="udrop-av" id="dropAv">?</div>
+        <div><div class="udrop-name" id="dropName">Guest</div><div class="udrop-email" id="dropEmail">-</div></div>
+      </div>
+      <div class="udrop-link" onclick="openSidebar('orders');closeDrop()">📦 My Orders</div>
+      <div class="udrop-link" onclick="openSidebar('wish');closeDrop()">❤️ Wishlist</div>
+      <div class="udrop-link" onclick="openSidebar('settings');closeDrop()">⚙️ Settings</div>
+      <div class="udrop-link danger" onclick="doLogout()">🚪 Sign Out</div>
+    </div>
+  </div>
+</nav>
+
+<!-- ══ CATEGORY NAV ══ -->
+<div class="catnav">
+  <button class="cat-btn active" onclick="setCat('All',this)">🏪 All</button>
+  <button class="cat-btn" onclick="setCat('Electronics',this)">📱 Electronics</button>
+  <button class="cat-btn" onclick="setCat('Fashion',this)">👗 Fashion</button>
+  <button class="cat-btn" onclick="setCat('Home',this)">🏠 Home & Kitchen</button>
+  <button class="cat-btn" onclick="setCat('Sports',this)">⚽ Sports</button>
+  <button class="cat-btn" onclick="setCat('Beauty',this)">💄 Beauty</button>
+  <button class="cat-btn" onclick="setCat('Books',this)">📚 Books</button>
+</div>
+
+<!-- ══ HERO ══ -->
+<div class="hero">
+  <div>
+    <h1>Deals you'll<br>absolutely love 🎉</h1>
+    <p>Up to 60% off on top brands. Free delivery on orders above ₹499.</p>
+    <button class="hero-cta" onclick="document.querySelector('.main').scrollIntoView({behavior:'smooth'})">Shop Now →</button>
+  </div>
+  <div class="hero-imgs">
+    <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=200&q=80" alt="">
+    <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=200&q=80" alt="">
+    <img src="https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=200&q=80" alt="">
+  </div>
+</div>
+
+<!-- ══ DEALS STRIP ══ -->
+<div class="deals">
+  <span style="color:#fff;font-weight:800;font-size:.8rem;white-space:nowrap">🔥 Today's Deals:</span>
+  <div class="deal-tag" style="color:#e63946">⚡ Flash Sale – 50% off</div>
+  <div class="deal-tag" style="color:#00a8a8">🆕 New Arrivals</div>
+  <div class="deal-tag" style="color:#007600">🏆 Top Rated</div>
+  <div class="deal-tag" style="color:#9b5de5">📱 Electronics Week</div>
+  <div class="deal-tag" style="color:#e63946">❤️ Best Sellers</div>
+  <div class="deal-tag" style="color:#118ab2">🚀 Free Shipping</div>
+</div>
+
+<!-- ══ MAIN GRID ══ -->
+<div class="main">
+  <div class="toolbar">
+    <p class="result-info" id="resultInfo"></p>
+    <select class="sort-sel" id="sortSel" onchange="filterProducts()">
+      <option value="default">Sort: Featured</option>
+      <option value="asc">Price: Low to High</option>
+      <option value="desc">Price: High to Low</option>
+      <option value="rating">Top Rated</option>
+    </select>
+  </div>
+  <div class="grid" id="grid"></div>
+</div>
+
+<!-- ══ PRODUCT MODAL ══ -->
+<div class="overlay" id="prodOverlay" onclick="if(event.target===this)closeProd()">
+  <div class="prod-modal">
+    <div class="pm-img" id="pmImg"></div>
+    <div class="pm-body">
+      <button class="pm-close" onclick="closeProd()">✕</button>
+      <div class="pm-cat"     id="pmCat"></div>
+      <div class="pm-name"    id="pmName"></div>
+      <div class="pm-stars"   id="pmStars"></div>
+      <div class="pm-reviews" id="pmRevs"></div>
+      <div class="pm-desc"    id="pmDesc"></div>
+      <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:3px;">
+        <div class="pm-price" id="pmPrice"></div>
+        <div class="pm-old"   id="pmOld"></div>
+      </div>
+      <div class="pm-save"  id="pmSave"></div>
+      <div class="pm-prime">✈️ FREE Delivery · ✅ In Stock · 🌟 Prime</div>
+      <div class="qty-row">
+        <span class="qty-label">Qty:</span>
+        <div class="qty-ctrl">
+          <button class="qty-btn" onclick="changeQty(-1)">−</button>
+          <span class="qty-num" id="qtyNum">1</span>
+          <button class="qty-btn" onclick="changeQty(1)">+</button>
+        </div>
+      </div>
+      <button class="pm-add" id="pmAddBtn" onclick="addFromModal()">🛒 Add to Cart</button>
+      <button class="pm-buy" onclick="buyNow()">⚡ Buy Now</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SUCCESS MODAL ══ -->
+<div class="overlay" id="successOverlay" onclick="if(event.target===this)closeSuccess()">
+  <div class="success-modal">
+    <span class="tick">🎉</span>
+    <h2>Order Placed!</h2>
+    <p>Your order has been confirmed and will arrive in 2–5 business days. (Front-end demo)</p>
+    <button onclick="closeSuccess()">Continue Shopping</button>
+  </div>
+</div>
+
+<!-- ══ SIDEBAR BG ══ -->
+<div class="sb-bg" id="sbBg" onclick="closeAllSidebars()"></div>
+
+<!-- ══ CART SIDEBAR ══ -->
+<div class="sidebar sb-w-cart" id="sideCart">
+  <div class="sb-head navy">
+    <span class="sb-title">🛒 Your Cart</span>
+    <button class="sb-close" onclick="closeAllSidebars()">✕</button>
+  </div>
+  <div class="sb-body" id="cartBody"></div>
+  <div class="sb-foot" id="cartFoot" style="display:none">
+    <div class="sb-row"><span>Subtotal</span><span id="cartSub">₹0</span></div>
+    <div class="sb-row"><span>Delivery</span><span style="color:green;font-weight:600">FREE 🎁</span></div>
+    <div class="sb-total-row"><span>Total</span><span class="sb-total-price" id="cartTotal">₹0</span></div>
+    <button class="checkout-btn" onclick="closeAllSidebars();openPage('payment')">Proceed to Checkout →</button>
+    <button class="clear-btn" onclick="clearCart()">Clear Cart</button>
+  </div>
+</div>
+
+<!-- ══ WISHLIST SIDEBAR ══ -->
+<div class="sidebar sb-w-wish" id="sideWish" style="background:#fffaf5;">
+  <div class="sb-head red">
+    <span class="sb-title">❤️ My Wishlist</span>
+    <button class="sb-close" onclick="closeAllSidebars()">✕</button>
+  </div>
+  <div class="sb-body" id="wishBody"></div>
+  <div id="wishFoot" style="display:none;padding:14px 18px;border-top:1px solid #fce4e4;background:#fff8f8;flex-shrink:0;">
+    <button onclick="addAllToCart()" style="width:100%;background:var(--orange);border:none;border-radius:50px;padding:12px;font-family:'Nunito',sans-serif;font-weight:900;font-size:.9rem;color:var(--navy);cursor:pointer;margin-bottom:7px;">🛒 Add All to Cart</button>
+    <button onclick="clearWishlist()" style="width:100%;background:none;border:1px solid #fcc;border-radius:50px;padding:8px;font-family:'Poppins',sans-serif;font-size:.8rem;color:var(--red);cursor:pointer;">Clear Wishlist</button>
+  </div>
+</div>
+
+<!-- ══ ORDERS SIDEBAR ══ -->
+<div class="sidebar sb-w-orders" id="sideOrders">
+  <div class="sb-head blue">
+    <span class="sb-title">📦 My Orders</span>
+    <button class="sb-close" onclick="closeAllSidebars()">✕</button>
+  </div>
+  <div class="sb-body" id="ordersBody"></div>
+</div>
+
+<!-- ══ SETTINGS SIDEBAR ══ -->
+<div class="sidebar sb-w-settings" id="sideSettings">
+  <div class="sb-head dark">
+    <span class="sb-title">⚙️ Settings</span>
+    <button class="sb-close" onclick="closeAllSidebars()">✕</button>
+  </div>
+  <div class="sb-body">
+    <div class="s-section">
+      <h3>👤 Profile</h3>
+      <div class="s-field"><label>Full Name</label><input type="text" id="stName" placeholder="Your name"></div>
+      <div class="s-field"><label>Email</label><input type="email" id="stEmail" placeholder="your@email.com"></div>
+      <div class="s-field"><label>Phone</label><input type="tel" id="stPhone" placeholder="+91 00000 00000"></div>
+      <button class="s-save-btn" onclick="saveProfile()">Save Changes</button>
+    </div>
+    <div class="s-section">
+      <h3>🔔 Notifications</h3>
+      <div class="s-row"><div><div class="s-label">Order Updates</div><div class="s-sub">Track your orders</div></div><label class="toggle"><input type="checkbox" checked><span class="t-slider"></span></label></div>
+      <div class="s-row"><div><div class="s-label">Deals & Offers</div><div class="s-sub">Flash sales & discounts</div></div><label class="toggle"><input type="checkbox" checked><span class="t-slider"></span></label></div>
+      <div class="s-row"><div><div class="s-label">New Arrivals</div><div class="s-sub">Be first to know</div></div><label class="toggle"><input type="checkbox"><span class="t-slider"></span></label></div>
+      <div class="s-row"><div><div class="s-label">Wishlist Price Drops</div><div class="s-sub">Get alerted on savings</div></div><label class="toggle"><input type="checkbox" checked><span class="t-slider"></span></label></div>
+    </div>
+    <div class="s-section">
+      <h3>🎨 Preferences</h3>
+      <div class="s-row"><div><div class="s-label">Currency</div></div><select class="s-select"><option>₹ INR</option><option>$ USD</option><option>€ EUR</option></select></div>
+      <div class="s-row"><div><div class="s-label">Language</div></div><select class="s-select"><option>English</option><option>हिंदी</option><option>తెలుగు</option><option>Tamil</option></select></div>
+      <div class="s-row"><div><div class="s-label">Save Address</div><div class="s-sub">Remember delivery address</div></div><label class="toggle"><input type="checkbox" checked><span class="t-slider"></span></label></div>
+    </div>
+    <div class="s-section">
+      <h3>🔒 Privacy & Security</h3>
+      <div class="s-row"><div><div class="s-label">Two-Factor Auth</div><div class="s-sub">Extra account security</div></div><label class="toggle"><input type="checkbox"><span class="t-slider"></span></label></div>
+      <div class="s-row"><div><div class="s-label">Personalised Ads</div><div class="s-sub">Relevant suggestions</div></div><label class="toggle"><input type="checkbox" checked><span class="t-slider"></span></label></div>
+      <br>
+      <button class="danger-btn" onclick="showToast('Reset link sent!','green')">🔑 Change Password</button><br>
+      <button class="danger-btn" style="color:#999;border-color:#eee;margin-top:8px;" onclick="if(confirm('Delete your account? This cannot be undone.'))doLogout()">🗑 Delete Account</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SEARCH PAGE ══ -->
+<div class="page" id="pageSearch">
+  <div class="page-nav">
+    <button class="page-back" onclick="closePage('search')">←</button>
+    <span class="page-title">🔍 Search Products</span>
+  </div>
+  <div class="search-hero">
+    <h2>What are you looking for?</h2>
+    <div class="search-big-wrap">
+      <input type="text" id="bigSearch" placeholder="Search products, categories, brands…" oninput="doSearch()">
+      <button onclick="doSearch()">🔍</button>
+    </div>
+  </div>
+  <div class="page-body">
+    <div class="search-filters">
+      <span class="sf-label">Filter:</span>
+      <button class="sf-btn active" onclick="setSearchCat('All',this)">All</button>
+      <button class="sf-btn" onclick="setSearchCat('Electronics',this)">📱 Electronics</button>
+      <button class="sf-btn" onclick="setSearchCat('Fashion',this)">👗 Fashion</button>
+      <button class="sf-btn" onclick="setSearchCat('Home',this)">🏠 Home</button>
+      <button class="sf-btn" onclick="setSearchCat('Sports',this)">⚽ Sports</button>
+      <button class="sf-btn" onclick="setSearchCat('Beauty',this)">💄 Beauty</button>
+      <button class="sf-btn" onclick="setSearchCat('Books',this)">📚 Books</button>
+    </div>
+    <div class="search-results-info" id="searchInfo">Showing all <strong>16</strong> products</div>
+    <div class="search-grid" id="searchGrid"></div>
+  </div>
+</div>
+
+<!-- ══ PAYMENT PAGE ══ -->
+<div class="page" id="pagePayment">
+  <div class="page-nav">
+    <button class="page-back" onclick="closePage('payment')">←</button>
+    <span class="page-title">💳 Secure Checkout</span>
+  </div>
+  <div class="page-body">
+    <div class="pay-layout">
+      <div>
+        <!-- Delivery -->
+        <div class="pay-card">
+          <h3>📦 Delivery Address</h3>
+          <div class="pay-2col">
+            <div class="pay-field"><label>First Name</label><input type="text" id="payFName" placeholder="Ravi"></div>
+            <div class="pay-field"><label>Last Name</label><input type="text" id="payLName" placeholder="Kumar"></div>
+          </div>
+          <div class="pay-field"><label>Street Address</label><input type="text" id="payAddr" placeholder="123, MG Road"></div>
+          <div class="pay-2col">
+            <div class="pay-field"><label>City</label><input type="text" id="payCity" placeholder="Hyderabad"></div>
+            <div class="pay-field"><label>PIN Code</label><input type="text" id="payPin" placeholder="500001"></div>
+          </div>
+          <div class="pay-field"><label>Phone</label><input type="tel" id="payPhone" placeholder="+91 98765 43210"></div>
+        </div>
+        <!-- Payment method -->
+        <div class="pay-card">
+          <h3>💳 Payment Method</h3>
+          <div class="pay-methods">
+            <div class="pay-method active" onclick="selectPayMethod(this)"><span class="pm-icon">💳</span>Card</div>
+            <div class="pay-method" onclick="selectPayMethod(this)"><span class="pm-icon">📱</span>UPI</div>
+            <div class="pay-method" onclick="selectPayMethod(this)"><span class="pm-icon">🏦</span>Net Banking</div>
+            <div class="pay-method" onclick="selectPayMethod(this)"><span class="pm-icon">💵</span>COD</div>
+          </div>
+          <div id="cardFields">
+            <div class="pay-field"><label>Card Number</label><input type="text" id="payCard" placeholder="1234  5678  9012  3456" maxlength="19" oninput="fmtCard(this)"></div>
+            <div class="pay-2col">
+              <div class="pay-field"><label>Expiry</label><input type="text" id="payExp" placeholder="MM / YY" maxlength="7" oninput="fmtExp(this)"></div>
+              <div class="pay-field"><label>CVV</label><input type="password" id="payCvv" placeholder="•••" maxlength="3"></div>
+            </div>
+            <div class="pay-field"><label>Name on Card</label><input type="text" id="payCardName" placeholder="RAVI KUMAR"></div>
+          </div>
+          <div id="upiFields" style="display:none">
+            <div class="pay-field"><label>UPI ID</label><input type="text" placeholder="yourname@upi"></div>
+          </div>
+          <div id="netFields" style="display:none">
+            <div class="pay-field"><label>Select Bank</label>
+              <select><option>State Bank of India</option><option>HDFC Bank</option><option>ICICI Bank</option><option>Axis Bank</option><option>Kotak Bank</option></select>
+            </div>
+          </div>
+          <div id="codFields" style="display:none">
+            <p style="font-size:.84rem;color:var(--muted);padding:12px;background:#f9f9f9;border-radius:8px;">💵 Pay in cash when your order arrives at your doorstep. No extra charges.</p>
+          </div>
+        </div>
+      </div>
+      <!-- Order summary -->
+      <div class="os-card">
+        <h3>🧾 Order Summary</h3>
+        <div id="osSummaryItems"></div>
+        <hr class="os-divider">
+        <div class="os-row"><span>Subtotal</span><span id="osSubtotal">₹0</span></div>
+        <div class="os-row"><span>Delivery</span><span style="color:var(--green);font-weight:600">FREE</span></div>
+        <div class="os-row"><span>Discount</span><span style="color:var(--red);font-weight:600" id="osDiscount">-₹0</span></div>
+        <div class="os-total-row"><span>Total</span><span id="osTotal">₹0</span></div>
+        <button class="pay-now-btn" onclick="placeOrder()">🔒 Place Order</button>
+        <div class="pay-secure">🔒 256-bit SSL encryption · Secured by Razorpay</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ TOAST ══ -->
+<div class="toast-box" id="toastBox"></div>
+<script src="script.js"></script>
+</body>
+</html>
